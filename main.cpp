@@ -3,6 +3,8 @@
 #include <fstream>
 #include <vector>
 
+#include "agentQL.hpp"
+
 
 const int environment_rows = 11;
 const int environment_cols = 11;
@@ -200,7 +202,34 @@ std::vector<std::vector<int> > get_shortest_path(int strow, int stcol){
 
 
 int main(){
-    srand(time(0));
+
+    std::cout << "12" << std::endl;
+    agentQL ql(11,11,4,0.5,0.9,0.8,false);
+
+    
+
+    std::cout << ql.q_values.size() << std::endl;
+    std::cout << ql.q_values[0].size() << std::endl;
+    std::cout << ql.q_values[0][0].size() << std::endl;
+   
+    /*
+    for (unsigned int i=0; i<ql.q_values.size(); i++){
+        for (unsigned int j=0; j<ql.q_values[i].size(); j++){
+            for (unsigned int k=0; k<ql.q_values[i][j].size(); k++){
+                //std::cout << " " << ql.q_values[i][j][k];
+                std::cout << "a ";
+            }
+            std::cout << "\t";
+        }
+        std::cout << std::endl; 
+    }
+
+    ql.printQvalues();
+    */
+
+
+    /*
+    //srand(time(0));
     int train_episodes = 1000000;
 
     // Fill rewards array with board info from csv file
@@ -218,6 +247,8 @@ int main(){
     shortest_path = get_shortest_path(9, 5);
     for (unsigned int i=0; i<shortest_path.size(); i++)
         std::cout << "  " << shortest_path[i][0] << "-" << shortest_path[i][1];
+
+    */
 
     return 0;
 }
