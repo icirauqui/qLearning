@@ -23,10 +23,27 @@ class agentQL{
 
         bool bDebug = false;
 
+
+
+        /*
+            Create an array to hold the current Q-Vañies for each state and action pair: Q(s,a)
+            The array contains 11 rows and 11 columns (environment shape) as well as a third "action" dimension.
+            The "action" dimension consists of 4 layers that will allow us to keep track of the Q-values for each possible action in each state.
+            The value of each (state,action) pair is initialized to 0.
+        */
         std::vector<std::vector<std::vector<float> > > q_values;
+
+        // Create a 2D array to hold the rewards for each state
+        // The array is 11x11, matching the shape of the environment
         std::vector<std::vector<int> > rewards;
 
-
+        /*
+            Actions
+            0 = up
+            1 = right
+            2 = down
+            3 = left
+        */
 
 
 
@@ -39,25 +56,10 @@ class agentQL{
             srand(time(0));
 
             // Initialize Q-Values to 0
-            std::vector<float> vt1;
-            for (unsigned int i=0; i<env_actions; i++)
-                vt1.push_back(0.0);
-            std::cout << "vt1 " << vt1.size() << std::endl;
-
-
-            std::vector<std::vector<float> > vt2;
-            for (unsigned int i=0; i<env_cols; i++)
-                vt2.push_back(vt1);
-            std::cout << "vt2 " << vt2.size() << std::endl;
-
-            q_values.clear();
-            for (unsigned int i=0; i<env_rows; i++)
-                q_values.push_back(vt2);
-            std::cout << "q_values " << q_values.size() << std::endl;
-            //q_values = std::vector<std::vector<std::vector<float> > > (env_rows, std::vector<std::vector<float> >(env_cols, std::vector<float>(env_actions, 0.0)));
+            q_values = std::vector<std::vector<std::vector<float> > > (env_rows, std::vector<std::vector<float> >(env_cols, std::vector<float>(env_actions, 0.0)));
             
             // Fill rewards from csv file
-            rewards = std::vector<std::vector<int> > (env_rows, std::vector<int>(env_actions,0));
+            rewards = std::vector<std::vector<int> > (env_rows, std::vector<int>(env_cols,0));
             std::ifstream fp("board.csv");
             for (unsigned int i=0; i<env_rows; i++)
                 for (unsigned int j=0; j<env_cols; j++)
@@ -68,16 +70,27 @@ class agentQL{
         ~agentQL(){};
 
 
-        void printQvalues(){
-            for (unsigned int i=0; i<env_rows; i++){
-                for (unsigned int j=0; j<env_cols; j++){
+        void print_qvalues(){
+            std::cout << std::endl << "    Q-Values" << std::endl; 
+            for (unsigned int i=0; i<q_values.size(); i++){
+                for (unsigned int j=0; j<q_values[i].size(); j++){
                     std::cout << "\t";
-                    for (unsigned int k=0; k<env_actions; k++){
+                    for (unsigned int k=0; k<q_values[i][j].size(); k++)
                         std::cout << q_values[i][j][k] << " ";
-                    }
                 }
                 std::cout << std::endl;
             }
+            std::cout << std::endl;
+        }
+
+        void print_rewards(){
+            std::cout << std::endl << "    Rewards" << std::endl; 
+            for (unsigned int i=0; i<rewards.size(); i++){
+                for (unsigned int j=0; j<rewards[i].size(); j++)
+                    std::cout << "\t" << rewards[i][j];
+                std::cout << std::endl;
+            }
+            std::cout << std::endl;
         }
 
 
