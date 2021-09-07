@@ -196,7 +196,7 @@ class agentQL{
                 while (!is_terminal_state());
             }
 
-            std::cout << std::endl << "Training complete!" << std::endl;
+            std::cout << std::endl << "Training complete!" << std::endl << std::endl;
         }
 
 
