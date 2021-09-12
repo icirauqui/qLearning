@@ -3,7 +3,7 @@
 #include <fstream>
 #include <vector>
 
-#include "agentQL.hpp"
+#include "agentQL.cpp"
 
 
 int main(){
