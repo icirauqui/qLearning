@@ -162,7 +162,7 @@ void agentQL::train(int train_episodes){
         while (!is_terminal_state());
     }
 
-    std::cout << std::endl << "Training complete!" << std::endl << std::endl;
+    std::cout << " Training: " << 100 << " % \r" << std::endl << std::endl;
 }
 
 
