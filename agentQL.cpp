@@ -91,10 +91,13 @@ void agentQL::get_starting_location(){
 
 
 
-void agentQL::get_next_action(){
+void agentQL::get_next_action(bool exploration){
     // If a randomly chosen value between 0 and 1 is less than epsilon
     // then choose the most promising value from the Q-table for this state.
     float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    if (!exploration)
+        r = 0.0;
+        
     if (r<epsilon) {
         float valmax = 0;
         int idxmax = 0;
@@ -177,7 +180,7 @@ std::vector<std::vector<int> > agentQL::get_shortest_path(int strow, int stcol){
         path.push_back(std::vector<int> {row,col});
 
         do {
-            get_next_action();
+            get_next_action(false);
             get_next_location();
             path.push_back(std::vector<int> {row,col});     
         }

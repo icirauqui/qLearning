@@ -53,7 +53,7 @@ class agentQL{
 
         bool is_terminal_state();
         void get_starting_location();
-        void get_next_action();
+        void get_next_action(bool exploration = true);
         void get_next_location();
 
         void train(int train_episodes);
