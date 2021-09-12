@@ -8,9 +8,9 @@
 
 int main(){
 
-    agentQL ql(11,11,4,0.5,0.9,0.8,false);
+    agentQL ql({11,11},4,0.5,0.9,0.8);
 
-    ql.train(1000);
+    ql.train(10000000);
 
 
     std::vector<std::vector<int> > shortest_path;

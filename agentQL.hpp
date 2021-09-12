@@ -8,9 +8,8 @@ class agentQL{
 
     public:
 
-        int env_rows = 11;
-        int env_cols = 11;
-        int env_actions = 4;
+        std::vector<int> env;
+        int actions = 4;
 
         int row, row1;
         int col, col1;
@@ -37,21 +36,16 @@ class agentQL{
         // The array is 11x11, matching the shape of the environment
         std::vector<std::vector<int> > rewards;
 
-        /*
-            Actions
-            0 = up
-            1 = right
-            2 = down
-            3 = left
-        */
+        // Actions: 0(up), 1(right), 2(down), 3(left)
 
 
 
     public:
 
-        agentQL(int env_rows, int env_cols, int env_actions, float learning_rate, float discount_factor, float epsilon, bool bDebug = false);
-
+        agentQL(std::vector<int> env, int actions, float learning_rate, float discount_factor, float epsilon);
         ~agentQL();
+
+        void debug(bool bDebug);
 
 
         void print_qvalues();

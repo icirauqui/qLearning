@@ -1,10 +1,9 @@
 #include "agentQL.hpp"
 
 
-agentQL::agentQL(int env_rows, int env_cols, int env_actions, float learning_rate, float discount_factor, float epsilon, bool bDebug){
-    this->env_rows = env_rows;
-    this->env_cols = env_cols;
-    this->env_actions = env_actions;
+agentQL::agentQL(std::vector<int> env, int actions, float learning_rate, float discount_factor, float epsilon){
+    this->env = env;
+    this->actions = actions;
     this->learning_rate = learning_rate;
     this->discount_factor = discount_factor;
     this->epsilon = epsilon;
@@ -14,13 +13,13 @@ agentQL::agentQL(int env_rows, int env_cols, int env_actions, float learning_rat
     srand(time(0));
 
     // Initialize Q-Values to 0
-    q_values = std::vector<std::vector<std::vector<float> > > (env_rows, std::vector<std::vector<float> >(env_cols, std::vector<float>(env_actions, 0.0)));
+    q_values = std::vector<std::vector<std::vector<float> > > (env[0], std::vector<std::vector<float> >(env[1], std::vector<float>(actions, 0.0)));
             
     // Fill rewards from csv file
-    rewards = std::vector<std::vector<int> > (env_rows, std::vector<int>(env_cols,0));
+    rewards = std::vector<std::vector<int> > (env[0], std::vector<int>(env[1],0));
     std::ifstream fp("board.csv");
-    for (unsigned int i=0; i<env_rows; i++)
-        for (unsigned int j=0; j<env_cols; j++)
+    for (unsigned int i=0; i<env[0]; i++)
+        for (unsigned int j=0; j<env[1]; j++)
             fp >> rewards[i][j];
 
 }
@@ -28,6 +27,11 @@ agentQL::agentQL(int env_rows, int env_cols, int env_actions, float learning_rat
 
 
 agentQL::~agentQL(){}
+
+
+void agentQL::debug(bool bDebug){
+    this->bDebug = bDebug;
+}
 
 
 
@@ -113,9 +117,9 @@ void agentQL::get_next_location(){
     int col1 = col;
     if (action==0 and row>0)
         row1 -= 1;
-    else if (action==1 and col<(env_cols-1))
+    else if (action==1 and col<(env[1]-1))
         col1 += 1;
-    else if (action==2 and row<(env_rows-1))
+    else if (action==2 and row<(env[0]-1))
         row1 += 1;
     else if (action==3 and col>0)
         col1 -= 1;
@@ -125,7 +129,9 @@ void agentQL::get_next_location(){
 
     
 void agentQL::train(int train_episodes){
+
     for (unsigned int episode=0; episode<train_episodes; episode++){
+        std::cout << " Training: " << 100*episode/train_episodes << " % \r";
 
         get_starting_location();
 
